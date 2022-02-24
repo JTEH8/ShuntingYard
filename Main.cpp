@@ -9,17 +9,20 @@ Thanks to Jayden Huang for helping me with this project.
 */
 using namespace std;
 
-Node* pop();
+struct Node{
+int data = 0;
+Node* next;
+};
+
+int order(char operation);
+void pop(Node* &top);
 void push(char newData, Node* &top);
 void peek(Node* &top);
 void display(Node* &top);
 void enqueue(Node* &front, Node* &rear, char newData);
 void dequeue(Node* &tempFront, Node* &rear);
 
-struct Node{
-int data = 0;
-Node* next;
-};
+
 
 int main(){
     cout << "Welcome to the Shunting Yard Algorithm! Please enter an equation in infix (normal) notation. Please don't use spaces to separate characters/numbers." << endl;
@@ -42,11 +45,78 @@ temp->next = top;
 top = temp;
 }
 
-int peek(){
-    if(isEmpty != NULL){
+void pop(Node* &top){
+if(top == NULL){
+    break;    
+}
+else{
+    Node* temp = top;
+    top = top->next;
+    delete temp;
+
+}
+}
+
+int order(char operation){
+if(prio == '+'){
+    return 1;
+}
+if(prio == '-'){
+    return 1;
+}
+if(prio == '*'){
+    return 2;
+}
+if(prio == '/'){
+    return 2;
+}
+if(prio == '^'){
+    return 3;
+}
+if(prio == +){
+    return 1;
+}
+else{
+    return 0;
+}
+}
+
+void display(Node* &top){
+    if(top == NULL){
+        break;
+    }
+    else{
+        Node* temp = top;
+        while(temp != NULL){
+            cout << temp->data << endl;
+            temp = temp->next;
+        }
+    }
+}
+
+char peek(Node* top){
+    if(top != NULL){
         return top->data;
     }
     else{
-        exit(1);
+        return ' ';
     }
 }
+
+void enqueue(Node* &front, Node* &rear, char newData){
+    if(front == NULL && rear == NULL){
+        Node* temp = new Node();
+        temp->next = NULL;
+        temp->data = newData;
+        front = temp;
+        rear = temp;
+        temp->next = NULL;
+    }
+    else{
+        Node* temp = new Node();
+        temp->data = newData;
+        temp->next = front;
+        front = temp;
+    }
+}
+
