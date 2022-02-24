@@ -14,6 +14,7 @@ int data = 0;
 Node* next;
 };
 
+void postfix(char* input, Node* stack, Node* queueFront, Node* queueRear);
 int order(char operation);
 void pop(Node* &top);
 void push(char newData, Node* &top);
@@ -26,9 +27,9 @@ void dequeue(Node* &tempFront, Node* &rear);
 
 int main(){
     cout << "Welcome to the Shunting Yard Algorithm! Please enter an equation in infix (normal) notation. Please don't use spaces to separate characters/numbers." << endl;
-    char input[100];
+    char input[];
     cin >> input;
-    //Initialize the Stack and Queue
+    //Initialize the Stack and   Queue
     Node* Stack = NULL;
     Node* QueueFront = NULL;
     Node* QueueBack = NULL;
@@ -58,23 +59,14 @@ else{
 }
 
 int order(char operation){
-if(prio == '+'){
+if(prio == '+' || prio == '-'){
     return 1;
 }
-if(prio == '-'){
-    return 1;
-}
-if(prio == '*'){
-    return 2;
-}
-if(prio == '/'){
+if(prio == '*' || prio == '/'){
     return 2;
 }
 if(prio == '^'){
     return 3;
-}
-if(prio == +){
-    return 1;
 }
 else{
     return 0;
@@ -120,3 +112,37 @@ void enqueue(Node* &front, Node* &rear, char newData){
     }
 }
 
+void dequeue(Node* &tempFront, Node* &rear){
+    if(rear == NULL){
+        break;
+    }
+    else if(tempFront == rear){
+        Node* tempRear = rear;
+        cout << tempRear->data << endl;
+        delete tempRear;
+        tempFront = NULL;
+        rear = NULL;
+    }
+    else if(tempFront->next == rear){
+        Node* tempRear = rear;
+        cout << tempRear->data << endl;
+        rear = tempFront;
+        delete tempRear;
+    }
+    else{
+        dequeue(tempFront->next, rear);
+}
+}
+void postfix(char* input, Node* stack, Node* queueFront, Node* queueRear){
+    for(int i = 0; i < input.size(); i++){
+        char c = input[i];
+        char output[100];
+        if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')){
+            output += c;
+        }
+        else if(c == '('){
+            push('(', stack);
+        }
+        
+    }
+}
