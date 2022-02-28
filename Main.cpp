@@ -134,15 +134,40 @@ void dequeue(Node* &tempFront, Node* &rear){
 }
 }
 void postfix(char* input, Node* stack, Node* queueFront, Node* queueRear){
-    for(int i = 0; i < input.size(); i++){
-        char c = input[i];
-        char output[100];
-        if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')){
-            output += c;
+    int i = 0; 
+    while(i <= strlen(input)){
+        char val = input[i];
+        //If the characters is a number
+        if(isdigit(val){
+            //Add it to the Queue
+            enqueue(queueFront,queueRear,val);
         }
-        else if(c == '('){
+        else if(val == '^' || val == '*' || val == '+' || val == '-' || val == '/'){
+            if(order(peek(stack)) > order(val) && priority(peek(stack)) != 5){
+                pop(stack,queueFront, queueRear);
+                push(val, stack);
+            }
+        }
+        else if(val; == '('){
             push('(', stack);
         }
-        
+        else if(val == ')'){
+            bool runThrough = true;
+            while(runThrough == true){
+                if(peek(stack) == '('){
+                    pop(stack);
+                    runThrough = false; 
+                }
+                else{
+                pop(stack,queueFront, queueRear);
+                }
+            }
+        }
+        else{
+            while(stack != NULL){
+                pop(stack,queueFront, queueRear);
+            }
+        }
+        i++;
     }
 }
