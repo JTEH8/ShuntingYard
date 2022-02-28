@@ -17,6 +17,7 @@ Node* next;
 void postfix(char* input, Node* stack, Node* queueFront, Node* queueRear);
 int order(char operation);
 void pop(Node* &top);
+void popTo(Node* &top, Node* &front, Node* &rear);
 void push(char newData, Node* &top);
 void peek(Node* &top);
 void display(Node* &top);
@@ -27,7 +28,7 @@ void dequeue(Node* &tempFront, Node* &rear);
 
 int main(){
     cout << "Welcome to the Shunting Yard Algorithm! Please enter an equation in infix (normal) notation. Please don't use spaces to separate characters/numbers." << endl;
-    char input[];
+    char input[100];
     cin >> input;
     //Initialize the Stack and   Queue
     Node* Stack = NULL;
@@ -48,7 +49,8 @@ top = temp;
 
 void pop(Node* &top){
 if(top == NULL){
-    break;    
+    cout << "The stack is empty!" << endl;
+    return;    
 }
 else{
     Node* temp = top;
@@ -58,14 +60,34 @@ else{
 }
 }
 
+void popTo(Node* &top, Node* &front, Node* &rear){
+    if(top == NULL){
+        cout << "The stack is empty!" << endl;
+        return;  
+    }
+    else if(top->data == '('){
+    Node* temp = top;
+    top = top->next;
+    delete temp;
+    cout << "Here's the top of the stack's data: ";
+    cout << top->data << endl;
+    }
+    else{
+        Node* temp = top;
+        enqueue(front, rear, top->data);
+        top = top->next;
+        delete temp;
+    }
+}
+
 int order(char operation){
-if(prio == '+' || prio == '-'){
+if(operation == '+' || operation == '-'){
     return 1;
 }
-if(prio == '*' || prio == '/'){
+if(operation == '*' || operation == '/'){
     return 2;
 }
-if(prio == '^'){
+if(operation == '^'){
     return 3;
 }
 else{
@@ -75,7 +97,7 @@ else{
 
 void display(Node* &top){
     if(top == NULL){
-        break;
+        return;
     }
     else{
         Node* temp = top;
@@ -138,17 +160,17 @@ void postfix(char* input, Node* stack, Node* queueFront, Node* queueRear){
     while(i <= strlen(input)){
         char val = input[i];
         //If the characters is a number
-        if(isdigit(val){
+        if(isdigit(val)){
             //Add it to the Queue
             enqueue(queueFront,queueRear,val);
         }
         else if(val == '^' || val == '*' || val == '+' || val == '-' || val == '/'){
-            if(order(peek(stack)) > order(val) && priority(peek(stack)) != 5){
-                pop(stack,queueFront, queueRear);
+            if(order(peek(stack)) > order(val) && order(peek(stack)) != 5){
+                popTo(stack,queueFront, queueRear);
                 push(val, stack);
             }
         }
-        else if(val; == '('){
+        else if(val == '('){
             push('(', stack);
         }
         else if(val == ')'){
@@ -159,13 +181,13 @@ void postfix(char* input, Node* stack, Node* queueFront, Node* queueRear){
                     runThrough = false; 
                 }
                 else{
-                pop(stack,queueFront, queueRear);
+                popTo(stack,queueFront, queueRear);
                 }
             }
         }
         else{
             while(stack != NULL){
-                pop(stack,queueFront, queueRear);
+                popTo(stack,queueFront, queueRear);
             }
         }
         i++;
