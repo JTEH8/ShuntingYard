@@ -19,7 +19,7 @@ int order(char operation);
 void pop(Node* &top);
 void popTo(Node* &top, Node* &front, Node* &rear);
 void push(char newData, Node* &top);
-void peek(Node* &top);
+char peek(Node* top);
 void display(Node* &top);
 void enqueue(Node* &front, Node* &rear, char newData);
 void dequeue(Node* &tempFront, Node* &rear);
@@ -27,17 +27,17 @@ void dequeue(Node* &tempFront, Node* &rear);
 
 
 int main(){
+    //Initialize the Stack and Queue
+    Node* Stack = NULL;
+    Node* queueFront = NULL;
+    Node* queuRear = NULL;
     cout << "Welcome to the Shunting Yard Algorithm! Please enter an equation in infix (normal) notation. Please don't use spaces to separate characters/numbers." << endl;
     char input[100];
     cin >> input;
-    //Initialize the Stack and   Queue
-    Node* Stack = NULL;
-    Node* QueueFront = NULL;
-    Node* QueueBack = NULL;
-    cout << "Here is your expression in postfix: ";
+    postfix(input,Stack,queueFront,queuRear);
+   
     cout << "Do you want to output the expression as infix, prefix, or postfix?" << endl;
-    Node* head1;
-    Node* head2;
+
 }
 
 void push(char newData, Node* &top){
@@ -136,7 +136,7 @@ void enqueue(Node* &front, Node* &rear, char newData){
 
 void dequeue(Node* &tempFront, Node* &rear){
     if(rear == NULL){
-        break;
+        return;
     }
     else if(tempFront == rear){
         Node* tempRear = rear;

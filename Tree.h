@@ -12,6 +12,8 @@ Tree* right;
     right = NULL;
     }
 void createTree();
+void setLeft(Tree* newLeft);
+void setRight(Tree* newRight);
 };
 
 #endif
