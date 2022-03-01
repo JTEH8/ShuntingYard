@@ -33,7 +33,15 @@ int main(){
     Node* queuRear = NULL;
     cout << "Welcome to the Shunting Yard Algorithm! Please enter an equation in infix (normal) notation. Please don't use spaces to separate characters/numbers." << endl;
     char input[100];
-    cin >> input;
+    char temp[100];
+    int num = 0;
+    cin.getline(input,100);
+    for (int i = 0; i <strlen(input); i++) {
+    if (input[i] != ' ') {
+      temp[num] = input[i];
+      num++;
+    }
+  }
     postfix(input,Stack,queueFront,queuRear);
     cout << "Do you want to output the expression as infix, prefix, or postfix?" << endl;
 
