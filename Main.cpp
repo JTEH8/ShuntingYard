@@ -35,7 +35,6 @@ int main(){
     char input[100];
     cin >> input;
     postfix(input,Stack,queueFront,queuRear);
-   
     cout << "Do you want to output the expression as infix, prefix, or postfix?" << endl;
 
 }

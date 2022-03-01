@@ -5,9 +5,37 @@
 
 using namespace std;
 
-void Tree::createTree(){
-    
+Tree::Tree(char newValue){
+    right = NULL;
+    left = NULL;
+    next = NULL;
+    data = newValue;
 }
 
-void Tree::
+void Tree::setRight(Tree* newRight){
+    right = newRight;
+}
 
+void Tree::setLeft(Tree* newLeft){
+    left = newLeft;
+}
+
+void Tree::setNext(Tree* newNext){
+    next = newNext;
+}
+
+Tree* Tree::getRight(){
+    return right;
+}
+
+Tree* Tree::getLeft(){
+    return left;
+}
+
+Tree* Tree::getNext(){
+    return next;
+}
+
+Tree::~Tree(){
+    
+}
