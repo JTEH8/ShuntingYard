@@ -30,19 +30,29 @@ int main(){
     //Initialize the Stack and Queue
     Node* Stack = NULL;
     Node* queueFront = NULL;
-    Node* queuRear = NULL;
+    Node* queueRear = NULL;
     cout << "Welcome to the Shunting Yard Algorithm! Please enter an equation in infix (normal) notation. Please don't use spaces to separate characters/numbers." << endl;
     char input[100];
     char temp[100];
     int num = 0;
     cin.getline(input,100);
+    //Removing spaces from input (From Nihal Parthasarathy)
     for (int i = 0; i <strlen(input); i++) {
     if (input[i] != ' ') {
       temp[num] = input[i];
       num++;
     }
   }
-    postfix(input,Stack,queueFront,queuRear);
+    postfix(input,Stack,queueFront,queueRear);
+    //Creating the Tree (From Nihal Parthasarathy)
+    while(queueFront != NULL){
+        char c = peek(queueFront);
+        dequeue(queueFront, queueRear)
+        if(isdigit(c)){
+            Tree* newNode = new Tree(c);
+            push(c, )
+        }
+    }
     cout << "Do you want to output the expression as infix, prefix, or postfix?" << endl;
 
 }
