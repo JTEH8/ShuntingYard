@@ -23,6 +23,10 @@ char peek(Node* top);
 void display(Node* &top);
 void enqueue(Node* &front, Node* &rear, char newData);
 void dequeue(Node* &tempFront, Node* &rear);
+void TreePush(Tree* &head, Tree* &current);
+char TreePeek(Tree* top);
+void TreePop(Tree* &head, Tree* &current);
+void printTree(Tree* head);
 
 
 
