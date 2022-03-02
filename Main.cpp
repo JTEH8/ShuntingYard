@@ -20,13 +20,14 @@ void pop(Node* &top);
 void popTo(Node* &top, Node* &front, Node* &rear);
 void push(char newData, Node* &top);
 char peek(Node* top);
-void display(Node* &top);
-void enqueue(Node* &front, Node* &rear, char newData);
+//void enqueue(Node* &front, Node* &rear, char newData);
 void dequeue(Node* &tempFront, Node* &rear);
-void TreePush(Tree* &head, Tree* &current);
-char TreePeek(Tree* top);
-void TreePop(Tree* &head, Tree* &current);
-void printTree(Tree* head);
+void newTree(char c, Node* &head, Tree* &tree);
+//Print functions done with the help of Ehan Masud
+void printInfix(Tree* Tree);
+void printPostfix(Tree* Tree);
+void printPrefix(Tree* Tree);
+void printTree(Tree* Tree);
 
 
 
@@ -35,6 +36,7 @@ int main(){
     Node* Stack = NULL;
     Node* queueFront = NULL;
     Node* queueRear = NULL;
+    Tree* head = NULL;
     cout << "Welcome to the Shunting Yard Algorithm! Please enter an equation in infix (normal) notation. Please don't use spaces to separate characters/numbers." << endl;
     char input[100];
     char temp[100];
@@ -51,14 +53,25 @@ int main(){
     //Creating the Tree (From Nihal Parthasarathy)
     while(queueFront != NULL){
         char c = peek(queueFront);
-        dequeue(queueFront, queueRear)
         if(isdigit(c)){
-            Tree* newNode = new Tree(c);
-            push(c, )
+            push(c, Stack));
+            queueFront = queueFront->next;
+        }
+        else if(c == '+' || c == '-' || c == '*' || c == '/' || c == '^'){
+            newTree(c,Stack, head);
+            push(c, Stack));
+            queueFront = queueFront->next;
         }
     }
-    cout << "Do you want to output the expression as infix, prefix, or postfix?" << endl;
-
+    cout << "Infix: ";
+    printInfix(head);
+    cout << endl;
+    cout << "Postfix: ";
+    printPostfix(head);
+    cout << endl;
+    cout << "Prefix: ";
+    printPrefix(head);
+    exit(0);
 }
 
 void push(char newData, Node* &top){
@@ -115,7 +128,7 @@ else{
     return 0;
 }
 }
-
+/*
 void display(Node* &top){
     if(top == NULL){
         return;
@@ -128,7 +141,7 @@ void display(Node* &top){
         }
     }
 }
-
+*/
 char peek(Node* top){
     if(top != NULL){
         return top->data;
@@ -214,3 +227,33 @@ void postfix(char* input, Node* stack, Node* queueFront, Node* queueRear){
         i++;
     }
 }
+
+void printInfix(Tree* Tree){
+    if(Tree->getLeft() != NULL){
+        printInfix(Tree->getLeft());
+    }
+    cout << Tree->getData();
+    if(Tree->getRight() != NULL){
+        printInfix(Tree->getRight());
+    }
+}
+
+void printPostfix(Tree* Tree){
+    if(Tree->getLeft() != NULL){
+        printInfix(Tree->getLeft());
+    }
+    if(Tree->getRight() != NULL){
+        printInfix(Tree->getRight());
+    }
+    cout << Tree->getData();
+}  
+
+void printPrefix(Tree* Tree){
+    cout << Tree->getData();
+    if(Tree->getLeft() != NULL){
+        printInfix(Tree->getLeft());
+    }
+    if(Tree->getRight() != NULL){
+        printInfix(Tree->getRight());
+    }
+}  

@@ -15,6 +15,7 @@ void setValue(char newVal);
 void setLeft(Tree* newLeft);
 void setRight(Tree* newRight);
 void setNext(Tree* newNext);
+char getData();
 Tree* getRight();
 Tree* getLeft();
 Tree* getNext();

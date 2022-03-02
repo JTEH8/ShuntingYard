@@ -28,6 +28,10 @@ Tree* Tree::getRight(){
     return right;
 }
 
+char Tree::getData(){
+    return data;
+}
+
 Tree* Tree::getLeft(){
     return left;
 }
