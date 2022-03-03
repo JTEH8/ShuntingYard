@@ -5,7 +5,7 @@
 /*
 Implementing stack referencing code from: https://www.geeksforgeeks.org/implement-a-stack-using-singly-linked-list/
 Implementing queue referencing code from: https://www.geeksforgeeks.org/queue-linked-list-implementation/
-Thanks to Jayden Huang for helping me with this project.
+`Thanks to Jayden Huang for helping me with this project.
 */
 using namespace std;
 
@@ -24,7 +24,7 @@ char peek(Node* top);
 char dequeue(Node* &front, Node* &rear);
 void deleteQueue(Node* &front, Node* &rear);
 void enqueue(Node* &front, Node* &rear, char newData);
-void treePush(Tree* newTree, Tree* &top);
+void treePush(Tree* &newTree, Tree* &top);
 void treePop(Tree* &newTree, Tree* &top);
 Tree* treePeek(Tree* top);
 //Print functions done with the help of Ehan Masud
@@ -47,7 +47,9 @@ int main(){
     cin>>input;
     postfix(input,Stack,queueFront,queueRear);
     while(queueFront != NULL && queueRear != NULL){
-        if(isdigit(dequeue(queueFront,queueRear))){
+      cout << dequeue(queueFront,queueRear);
+      deleteQueue(queueFront,queueRear);
+      if(isdigit(dequeue(queueFront,queueRear))){
             Tree* branch = new Tree(dequeue(queueFront,queueRear));
             treePush(head,branch);
         }
@@ -111,12 +113,15 @@ int order(char operation){
 if(operation == '+' || operation == '-'){
     return 1;
 }
-if(operation == '*' || operation == '/'){
+ else if(operation == '*' || operation == '/'){
     return 2;
 }
-if(operation == '^'){
+ else if(operation == '^'){
     return 3;
 }
+ else if(operation == '('){
+   return 5;
+ }
 else{
     return 0;
 }
@@ -229,11 +234,12 @@ void postfix(char* input, Node* &stack, Node* &queueFront, Node* &queueRear){
     }
 }
 
-void treePush(Tree* newTree, Tree* &top){
+void treePush(Tree* &newTree, Tree* &top){
     Tree* temp =top;
     temp->setNext(newTree);
     newTree = temp;
 }
+
 void treePop(Tree* &newTree, Tree* &top){
     top = newTree;
     newTree = newTree->next;
