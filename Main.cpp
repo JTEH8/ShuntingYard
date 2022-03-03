@@ -22,6 +22,7 @@ void push(char newData, Node* &top);
 char peek(Node* top);
 //void enqueue(Node* &front, Node* &rear, char newData);
 void dequeue(Node* &tempFront, Node* &rear);
+void enqueue(Node* &front, Node* &rear, char newData);
 void newTree(char c, Node* &head, Tree* &tree);
 //Print functions done with the help of Ehan Masud
 void printInfix(Tree* Tree);
@@ -54,12 +55,12 @@ int main(){
     while(queueFront != NULL){
         char c = peek(queueFront);
         if(isdigit(c)){
-            push(c, Stack));
+            push(c, Stack);
             queueFront = queueFront->next;
         }
         else if(c == '+' || c == '-' || c == '*' || c == '/' || c == '^'){
             newTree(c,Stack, head);
-            push(c, Stack));
+            push(c, Stack);
             queueFront = queueFront->next;
         }
     }
