@@ -24,7 +24,6 @@ char peek(Node* top);
 char dequeue(Node* &front, Node* &rear);
 void deleteQueue(Node* &front, Node* &rear);
 void enqueue(Node* &front, Node* &rear, char newData);
-void newTree(char c, Node* &head, Tree* &tree);
 void treePush(Tree* newTree, Tree* &top);
 void treePop(Tree* &newTree, Tree* &top);
 Tree* treePeek(Tree* top);
@@ -32,7 +31,6 @@ Tree* treePeek(Tree* top);
 void printInfix(Tree* Tree);
 void printPostfix(Tree* Tree);
 void printPrefix(Tree* Tree);
-void printTree(Tree* Tree);
 
 
 
@@ -263,29 +261,7 @@ Tree* treePeek(Tree* top){
     }
 }
 
-void newTree(char c, Node* &head, Tree* &tree){
-    Tree* newTree = new Tree(c);
-    if(tree == NULL){
-        char a = peek(head);
-        char b = peek(head->next);
-        Tree* right = new Tree(a);
-        Tree* left = new Tree(b);
-        newTree->setRight(right);
-        newTree->setLeft(left);
-        pop(head);
-        pop(head);
-        tree = newTree;
-    }
-    else if(tree->getData() == '^' || tree->getData() == '*' || tree->getData() == '+' || tree->getData() == '-' || tree->getData() == '/'){
-        char a = peek(head);
-        Tree* right = new Tree(a);
-        newTree->setRight(right);
-        newTree->setLeft(tree);
-        pop(head);
-        tree = newTree;
-    }
 
-}
 
 void printInfix(Tree* Tree){
     if(Tree != NULL){
