@@ -121,20 +121,7 @@ else{
     return 0;
 }
 }
-/*
-void display(Node* &top){
-    if(top == NULL){
-        return;
-    }
-    else{
-        Node* temp = top;
-        while(temp != NULL){
-            cout << temp->data << endl;
-            temp = temp->next;
-        }
-    }
-}
-*/
+
 char peek(Node* top){
     if(top != NULL){
         return top->data;
@@ -213,7 +200,7 @@ void postfix(char* input, Node* &stack, Node* &queueFront, Node* &queueRear){
             enqueue(queueFront,queueRear,val);
         }
         else if(val == '^' || val == '*' || val == '+' || val == '-' || val == '/'){
-           while(order(peek(stack)) >= order(val) && order(peek(stack)) != 5){
+          while(peek(stack) != 'A' && order(peek(stack)) != 5 && order(peek(stack)) >= order(val) && order(val) != 3){
                 popTo(stack,queueFront, queueRear);
             }
              push(val, stack);
