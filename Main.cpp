@@ -14,16 +14,20 @@ int data = 0;
 Node* next;
 };
 
-void postfix(char* input, Node* stack, Node* queueFront, Node* queueRear);
+void postfix(char* input, Node* &stack, Node* &queueFront, Node* &queueRear);
 int order(char operation);
 void pop(Node* &top);
 void popTo(Node* &top, Node* &front, Node* &rear);
 void push(char newData, Node* &top);
 char peek(Node* top);
 //void enqueue(Node* &front, Node* &rear, char newData);
-void dequeue(Node* &tempFront, Node* &rear);
+char dequeue(Node* &front, Node* &rear);
+void deleteQueue(Node* &front, Node* &rear);
 void enqueue(Node* &front, Node* &rear, char newData);
 void newTree(char c, Node* &head, Tree* &tree);
+void treePush(Tree* newTree, Tree* &top);
+void treePop(Tree* &newTree, Tree* &top);
+Tree* treePeek(Tree* top);
 //Print functions done with the help of Ehan Masud
 void printInfix(Tree* Tree);
 void printPostfix(Tree* Tree);
@@ -42,28 +46,25 @@ int main(){
     char input[100];
     char temp[100];
     int num = 0;
-    cin.getline(input,100);
-    //Removing spaces from input (From Nihal Parthasarathy)
-    for (int i = 0; i <strlen(input); i++) {
-    if (input[i] != ' ') {
-      temp[num] = input[i];
-      num++;
-    }
-  }
+    cin>>input;
     postfix(input,Stack,queueFront,queueRear);
-    //Creating the Tree (From Nihal Parthasarathy)
-    while(queueFront != NULL){
-        char c = peek(queueFront);
-        if(isdigit(c)){
-            push(c, Stack);
-            queueFront = queueFront->next;
+    while(queueFront != NULL && queueRear != NULL){
+        if(isdigit(dequeue(queueFront,queueRear))){
+            Tree* branch = new Tree(dequeue(queueFront,queueRear));
+            treePush(head,branch);
         }
-        else if(c == '+' || c == '-' || c == '*' || c == '/' || c == '^'){
-            newTree(c,Stack, head);
-            push(c, Stack);
-            queueFront = queueFront->next;
+        else{
+            Tree* branch = new Tree(dequeue(queueFront,queueRear));
+            Tree* temp = NULL;
+            treePop(head, temp);
+            branch->setRight(temp);
+            treePop(head,temp);
+            branch->setLeft(temp);
+            treePush(head, branch);
         }
-    }
+        deleteQueue(queueFront, queueRear);
+        }
+    printPostfix(head);
     cout << "Infix: ";
     printInfix(head);
     cout << endl;
@@ -97,16 +98,9 @@ else{
 
 void popTo(Node* &top, Node* &front, Node* &rear){
     if(top == NULL){
-        cout << "The stack is empty!" << endl;
         return;  
     }
-    else if(top->data == '('){
-    Node* temp = top;
-    top = top->next;
-    delete temp;
-    cout << "Here's the top of the stack's data: ";
-    cout << top->data << endl;
-    }
+    
     else{
         Node* temp = top;
         enqueue(front, rear, top->data);
@@ -169,28 +163,49 @@ void enqueue(Node* &front, Node* &rear, char newData){
     }
 }
 
-void dequeue(Node* &tempFront, Node* &rear){
+char dequeue(Node* &tempFront, Node* &rear){
     if(rear == NULL){
-        return;
+        return 'A';
     }
     else if(tempFront == rear){
         Node* tempRear = rear;
-        cout << tempRear->data << endl;
+        return tempRear->data;
         delete tempRear;
         tempFront = NULL;
         rear = NULL;
     }
     else if(tempFront->next == rear){
         Node* tempRear = rear;
-        cout << tempRear->data << endl;
+        return tempRear->data;
         rear = tempFront;
         delete tempRear;
     }
     else{
-        dequeue(tempFront->next, rear);
+        return dequeue(tempFront->next, rear);
 }
 }
-void postfix(char* input, Node* stack, Node* queueFront, Node* queueRear){
+
+void deleteQueue(Node* &front, Node* &rear){
+    if(rear == NULL){
+        return;
+    }
+    else if(front == rear){
+        Node* tempRear = rear;
+        delete tempRear;
+        front = NULL;
+        rear = NULL;
+    }
+    else if(front->next == rear){
+        Node* tempRear = rear;
+        rear = front;
+        delete tempRear;
+    }
+    else{
+        deleteQueue(front->next, rear);
+    }
+}
+
+void postfix(char* input, Node* &stack, Node* &queueFront, Node* &queueRear){
     int i = 0; 
     while(i <= strlen(input)){
         char val = input[i];
@@ -200,13 +215,13 @@ void postfix(char* input, Node* stack, Node* queueFront, Node* queueRear){
             enqueue(queueFront,queueRear,val);
         }
         else if(val == '^' || val == '*' || val == '+' || val == '-' || val == '/'){
-            if(order(peek(stack)) > order(val) && order(peek(stack)) != 5){
+           while(order(peek(stack)) >= order(val) && order(peek(stack)) != 5){
                 popTo(stack,queueFront, queueRear);
-                push(val, stack);
             }
+             push(val, stack);
         }
         else if(val == '('){
-            push('(', stack);
+            push(val, stack);
         }
         else if(val == ')'){
             bool runThrough = true;
@@ -229,17 +244,71 @@ void postfix(char* input, Node* stack, Node* queueFront, Node* queueRear){
     }
 }
 
-void printInfix(Tree* Tree){
-    if(Tree->getLeft() != NULL){
-        printInfix(Tree->getLeft());
+void treePush(Tree* newTree, Tree* &top){
+    Tree* temp =top;
+    temp->setNext(newTree);
+    newTree = temp;
+}
+void treePop(Tree* &newTree, Tree* &top){
+    top = newTree;
+    newTree = newTree->next;
+}
+
+Tree* treePeek(Tree* top){
+    if(top != NULL){
+        return top;
     }
-    cout << Tree->getData();
-    if(Tree->getRight() != NULL){
-        printInfix(Tree->getRight());
+    else{
+        return NULL;
+    }
+}
+
+void newTree(char c, Node* &head, Tree* &tree){
+    Tree* newTree = new Tree(c);
+    if(tree == NULL){
+        char a = peek(head);
+        char b = peek(head->next);
+        Tree* right = new Tree(a);
+        Tree* left = new Tree(b);
+        newTree->setRight(right);
+        newTree->setLeft(left);
+        pop(head);
+        pop(head);
+        tree = newTree;
+    }
+    else if(tree->getData() == '^' || tree->getData() == '*' || tree->getData() == '+' || tree->getData() == '-' || tree->getData() == '/'){
+        char a = peek(head);
+        Tree* right = new Tree(a);
+        newTree->setRight(right);
+        newTree->setLeft(tree);
+        pop(head);
+        tree = newTree;
+    }
+
+}
+
+void printInfix(Tree* Tree){
+    if(Tree != NULL){
+        if(isdigit(treePeek(Tree)->getData()) == false){
+            cout << "(";
+        }
+    printInfix(Tree->left);
+    cout << Tree->getData(); 
+    printInfix(Tree->right);
+    if(isdigit(treePeek(Tree)->getData()) == false){
+            cout << "(";
+        }
     }
 }
 
 void printPostfix(Tree* Tree){
+    if(Tree == NULL){
+        return;
+    }
+    printPostfix(Tree->left);
+    printPostfix(Tree->right);
+    cout << Tree->getData();  
+    /*
     if(Tree->getLeft() != NULL){
         printInfix(Tree->getLeft());
     }
@@ -247,6 +316,7 @@ void printPostfix(Tree* Tree){
         printInfix(Tree->getRight());
     }
     cout << Tree->getData();
+    */
 }  
 
 void printPrefix(Tree* Tree){
