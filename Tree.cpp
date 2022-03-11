@@ -4,14 +4,14 @@
 #include "Tree.h"
 
 using namespace std;
-
+//Constructors
 Tree::Tree(char newValue){
     right = NULL;
     left = NULL;
     next = NULL;
     data = newValue;
 }
-
+//Setting methods
 void Tree::setRight(Tree* newRight){
     right = newRight;
 }
@@ -23,7 +23,7 @@ void Tree::setLeft(Tree* newLeft){
 void Tree::setNext(Tree* newNext){
     next = newNext;
 }
-
+//Get methods
 Tree* Tree::getRight(){
     return right;
 }
@@ -39,7 +39,7 @@ Tree* Tree::getLeft(){
 Tree* Tree::getNext(){
     return next;
 }
-
+//Destructor
 Tree::~Tree(){
     
 }
