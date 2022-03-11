@@ -70,7 +70,6 @@ int main(){
         deleteQueue(queueFront, queueRear);
         }
     //Printing out Postfix, Infix, and Prefix
-    printPostfix(head);
     cout << "Infix: ";
     printInfix(head);
     cout << endl;
