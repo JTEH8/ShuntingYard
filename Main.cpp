@@ -42,13 +42,10 @@ int main(){
     Tree* head = NULL;
     cout << "Welcome to the Shunting Yard Algorithm! Please enter an equation in infix (normal) notation. Please don't use spaces to separate characters/numbers." << endl;
     char input[100];
-    char temp[100];
     int num = 0;
     cin>>input;
     postfix(input,Stack,queueFront,queueRear);
     while(queueFront != NULL && queueRear != NULL){
-      cout << dequeue(queueFront,queueRear);
-      deleteQueue(queueFront,queueRear);
       if(isdigit(dequeue(queueFront,queueRear))){
             Tree* branch = new Tree(dequeue(queueFront,queueRear));
             treePush(head,branch);
@@ -73,6 +70,7 @@ int main(){
     cout << endl;
     cout << "Prefix: ";
     printPrefix(head);
+    exit(0);
 }
 
 void push(char newData, Node* &top){
@@ -264,7 +262,7 @@ void printInfix(Tree* Tree){
     cout << Tree->getData(); 
     printInfix(Tree->right);
     if(isdigit(treePeek(Tree)->getData()) == false){
-            cout << "(";
+            cout << ")";
         }
     }
 }
@@ -290,9 +288,9 @@ void printPostfix(Tree* Tree){
 void printPrefix(Tree* Tree){
     cout << Tree->getData();
     if(Tree->getLeft() != NULL){
-        printInfix(Tree->getLeft());
+        printPrefix(Tree->getLeft());
     }
     if(Tree->getRight() != NULL){
-        printInfix(Tree->getRight());
+        printPrefix(Tree->getRight());
     }
 }  
